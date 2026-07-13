@@ -17,9 +17,25 @@ class Pinfolder < Formula
 
     (bin/"pinfolder-setup").write <<~EOS
       #!/bin/zsh
-      # PinFolder post-install: put the app in /Applications and register the
-      # three Finder Quick Actions via the system Automator Installer.
+      # PinFolder setup helper.
+      #   pinfolder-setup             install: app -> /Applications + register Quick Actions
+      #   pinfolder-setup uninstall   remove the app and the three Quick Actions
       set -e
+      if [ "$1" = "uninstall" ]; then
+        osascript -e 'quit app "PinFolder"' 2>/dev/null || true
+        rm -rf "/Applications/PinFolder.app"
+        rm -rf "$HOME/Library/Services/📌 Pin.workflow" \\
+               "$HOME/Library/Services/📌 Pin on Top.workflow" \\
+               "$HOME/Library/Services/📌 Pin to Sidebar.workflow"
+        /System/Library/CoreServices/pbs -update 2>/dev/null || true
+        echo "Removed the app and the three Quick Actions."
+        echo "Kept (delete them yourself if you want them gone):"
+        echo "  ~/.pinned-folders            your pins list"
+        echo "  ' 📌 ' shortcut symlinks     from Pin on Top, in their folders"
+        echo "  sidebar Favourites entries   right-click -> Remove from Sidebar"
+        echo "Finish with: brew uninstall pinfolder"
+        exit 0
+      fi
       osascript -e 'quit app "PinFolder"' 2>/dev/null || true
       rm -rf "/Applications/PinFolder.app"
       cp -R "#{opt_prefix}/PinFolder.app" /Applications/
@@ -42,9 +58,9 @@ class Pinfolder < Formula
 
         pinfolder-setup
 
-      To remove everything later: quit PinFolder from its 📌 menu, delete
-      /Applications/PinFolder.app and the three 📌 workflows in
-      ~/Library/Services, then `brew uninstall pinfolder`.
+      To uninstall later:
+
+        pinfolder-setup uninstall && brew uninstall pinfolder
     EOS
   end
 
