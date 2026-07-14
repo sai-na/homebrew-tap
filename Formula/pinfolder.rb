@@ -1,8 +1,8 @@
 class Pinfolder < Formula
   desc "Pin files & folders on macOS: menu bar, top of folder, or Finder sidebar"
   homepage "https://sai-na.github.io/PinFolder/"
-  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "93db26550ba9d41840d95a4b007b52d70c4c93ac373710883b8c9afb050099c2"
+  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "d273edf7c5011110dc010f266ab9ccbe928d9d45c276306e43e0a0d99128bfd4"
   license "MIT"
 
   depends_on :macos
@@ -25,6 +25,8 @@ class Pinfolder < Formula
         osascript -e 'quit app "PinFolder"' 2>/dev/null || true
         rm -rf "/Applications/PinFolder.app"
         rm -rf "$HOME/Library/Services/📌 Pin.workflow" \\
+               "$HOME/Library/Services/🔝 Pin on Top.workflow" \\
+               "$HOME/Library/Services/🗂 Pin to Sidebar.workflow" \\
                "$HOME/Library/Services/📌 Pin on Top.workflow" \\
                "$HOME/Library/Services/📌 Pin to Sidebar.workflow"
         /System/Library/CoreServices/pbs -update 2>/dev/null || true
@@ -53,12 +55,12 @@ class Pinfolder < Formula
       }
       retry_open /Applications/PinFolder.app || true
       retry_open "#{opt_pkgshare}/workflows/📌 Pin.workflow" || true
-      retry_open "#{opt_pkgshare}/workflows/📌 Pin on Top.workflow" || true
-      retry_open "#{opt_pkgshare}/workflows/📌 Pin to Sidebar.workflow" || true
+      retry_open "#{opt_pkgshare}/workflows/🔝 Pin on Top.workflow" || true
+      retry_open "#{opt_pkgshare}/workflows/🗂 Pin to Sidebar.workflow" || true
       echo ""
       echo "A 📌 appeared in the menu bar, and macOS is showing three install"
       echo "prompts — click Install on each. Then right-click any file or folder"
-      echo "in Finder → Quick Actions → 📌 Pin / 📌 Pin on Top / 📌 Pin to Sidebar."
+      echo "in Finder → Quick Actions → 📌 Pin / 🔝 Pin on Top / 🗂 Pin to Sidebar."
     EOS
     chmod 0755, bin/"pinfolder-setup"
   end
