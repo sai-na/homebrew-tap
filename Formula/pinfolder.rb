@@ -1,8 +1,8 @@
 class Pinfolder < Formula
   desc "Pin files & folders on macOS: menu bar, top of folder, or Finder sidebar"
   homepage "https://sai-na.github.io/PinFolder/"
-  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "d273edf7c5011110dc010f266ab9ccbe928d9d45c276306e43e0a0d99128bfd4"
+  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.2.tar.gz"
+  sha256 "deb609a0b7fdccdf2b935919ffce3c2d9cad2f5e6fa7e3793c451ef39cf7fcf8"
   license "MIT"
 
   depends_on :macos
@@ -60,7 +60,7 @@ class Pinfolder < Formula
       echo ""
       echo "A 📌 appeared in the menu bar, and macOS is showing three install"
       echo "prompts — click Install on each. Then right-click any file or folder"
-      echo "in Finder → Quick Actions → 📌 Pin / 🔝 Pin on Top / 🗂 Pin to Sidebar."
+      echo "in Finder → Quick Actions → 📌 Pin / 📌 Pin on Top / 📌 Pin to Sidebar."
     EOS
     chmod 0755, bin/"pinfolder-setup"
   end
