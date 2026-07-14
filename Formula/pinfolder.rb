@@ -37,12 +37,24 @@ class Pinfolder < Formula
         exit 0
       fi
       osascript -e 'quit app "PinFolder"' 2>/dev/null || true
+      # quit is asynchronous: wait for the process to actually exit before
+      # replacing the bundle, or the next `open` fails with LS error -600
+      for _ in {1..25}; do pgrep -xq PinFolder || break; sleep 0.2; done
+      pgrep -xq PinFolder && pkill -x PinFolder 2>/dev/null; sleep 0.3
       rm -rf "/Applications/PinFolder.app"
       cp -R "#{opt_prefix}/PinFolder.app" /Applications/
-      open /Applications/PinFolder.app
-      open "#{opt_pkgshare}/workflows/📌 Pin.workflow"
-      open "#{opt_pkgshare}/workflows/📌 Pin on Top.workflow"
-      open "#{opt_pkgshare}/workflows/📌 Pin to Sidebar.workflow"
+      retry_open() {
+        for _ in {1..5}; do
+          open "$1" 2>/dev/null && return 0
+          sleep 0.6
+        done
+        echo "warning: could not open $1 — open it manually" >&2
+        return 1
+      }
+      retry_open /Applications/PinFolder.app || true
+      retry_open "#{opt_pkgshare}/workflows/📌 Pin.workflow" || true
+      retry_open "#{opt_pkgshare}/workflows/📌 Pin on Top.workflow" || true
+      retry_open "#{opt_pkgshare}/workflows/📌 Pin to Sidebar.workflow" || true
       echo ""
       echo "A 📌 appeared in the menu bar, and macOS is showing three install"
       echo "prompts — click Install on each. Then right-click any file or folder"
