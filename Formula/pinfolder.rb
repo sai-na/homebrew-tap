@@ -1,8 +1,8 @@
 class Pinfolder < Formula
   desc "Pin files & folders on macOS: menu bar, top of folder, or Finder sidebar"
   homepage "https://sai-na.github.io/PinFolder/"
-  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.2.tar.gz"
-  sha256 "deb609a0b7fdccdf2b935919ffce3c2d9cad2f5e6fa7e3793c451ef39cf7fcf8"
+  url "https://github.com/sai-na/PinFolder/archive/refs/tags/v1.0.3.tar.gz"
+  sha256 "6cbc1533371658ebfabdf591e395072de581a426e597349b21b2bfa8bdca3237"
   license "MIT"
 
   depends_on :macos
